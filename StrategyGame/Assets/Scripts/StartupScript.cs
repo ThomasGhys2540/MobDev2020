@@ -6,8 +6,10 @@ using UnityEngine;
 public class StartupScript : MonoBehaviour
 {
     public Transform Tile;
+    public Transform Gapfill;
     public Transform Orientation;
-    public int sideLength = 20;
+    public Transform Playfield;
+    public int sideLength = 15;
     public Transform[,] playingField;
     void Start()
     {
@@ -16,8 +18,10 @@ public class StartupScript : MonoBehaviour
         {
             for (int x = 0; x < sideLength; x++)
             {
-                playingField[x,y] = Instantiate(Tile, Orientation.position + new Vector3(x * 5, 0, y * 5), Tile.rotation, Orientation);
+                playingField[x,y] = Instantiate(Tile, Orientation.position + new Vector3(x * 5, 0, y * 5), Tile.rotation, Playfield);
             }
         }
+        Gapfill.transform.localScale = new Vector3(sideLength * 5 + 1, 0.9f, sideLength * 5 + 1);
+        Instantiate(Gapfill, Orientation.position + new Vector3(sideLength * 5 / 2 - 2, 0, sideLength * 5 / 2 - 2), Orientation.rotation, Orientation);
     }
 }
