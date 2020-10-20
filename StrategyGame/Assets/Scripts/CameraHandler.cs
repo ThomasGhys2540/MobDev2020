@@ -74,22 +74,24 @@ public class CameraHandler : MonoBehaviour
             pos.y = maxY;
         }
 
-        if(pos.x < minminX + (pos.y - minY) * ((maxminX - minminX) / (maxY - minY)))  //Keep X in range
+        // Original formula was: A + Math.Pow((Y - minY)/(maxY - minY), 2) * (Y - minY) * ((maxA - minA)/(maxY - minY))
+
+        if(pos.x < minminX + Math.Pow((pos.y - minY)/(maxY - minY), 3) * (maxminX - minminX))  //Keep X in range
         {
-            pos.x = minminX + (pos.y - minY) * ((maxminX - minminX) / (maxY - minY));
+            pos.x = minminX + (float)Math.Pow((pos.y - minY) / (maxY - minY), 3) * (maxminX - minminX);
         }
-        if(pos.x > maxmaxX - ((pos.y - minY) * ((maxmaxX - minmaxX) / (maxY - minY))))
+        if (pos.x > maxmaxX - Math.Pow((pos.y - minY) / (maxY - minY), 3) * (maxmaxX - minmaxX))
         {
-            pos.x = maxmaxX - ((pos.y - minY) * ((maxmaxX - minmaxX) / (maxY - minY)));
+            pos.x = maxmaxX - (float)Math.Pow((pos.y - minY) / (maxY - minY), 3) * (maxmaxX - minmaxX);
         }
 
-        if(pos.z < minminZ + (Math.Pow((pos.y - minY) / (maxY - minY), 2) * (pos.y - minY) * ((maxminZ - minminZ) / (maxY - minY)))) //Keep Z in range
+        if(pos.z < minminZ + Math.Pow((pos.y - minY) / (maxY - minY), 3) * (maxminZ - minminZ)) //Keep Z in range
         {
-            pos.z = minminZ + (float)(Math.Pow((pos.y - minY) / (maxY - minY), 2) * (pos.y - minY) * ((maxminZ - minminZ) / (maxY - minY)));
+            pos.z = minminZ + (float)Math.Pow((pos.y - minY) / (maxY - minY), 3) * (maxminZ - minminZ);
         }
-        if(pos.z > maxmaxZ - (pos.y - minY) * ((maxmaxZ - minmaxZ) / (maxY - minY)))
+        if (pos.z > maxmaxZ - Math.Pow((pos.y - minY) / (maxY - minY), 3) * (maxmaxZ - minmaxZ))
         {
-            pos.z = maxmaxZ - (pos.y - minY) * ((maxmaxZ - minmaxZ) / (maxY - minY));
+            pos.z = maxmaxZ - (float)Math.Pow((pos.y - minY) / (maxY - minY), 3) * (maxmaxZ - minmaxZ);
         }
 
         transform.transform.rotation = Quaternion.Euler(45 + (pos.y - 5)*(45f / 40f), 0, 0);
