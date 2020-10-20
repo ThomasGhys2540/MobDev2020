@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraHandler : MonoBehaviour
 {
+    //public GameObject orientation;
     private bool doMovement = true;
     public float panspeed = 20f;
     public float scrollSpeed = 5f;
@@ -86,7 +85,7 @@ public class CameraHandler : MonoBehaviour
         {
             pos.x = minminX + (float)Math.Pow((pos.y - minY) / (maxY - minY), 3) * (maxminX - minminX);
         }
-        if (pos.x > maxmaxX - Math.Pow((pos.y - minY) / (maxY - minY), 3) * (maxmaxX - minmaxX))
+        if (pos.x > maxmaxX - Math.Pow((pos.y - minY) / (maxY - minY), 2) * (maxmaxX - minmaxX))
         {
             pos.x = maxmaxX - (float)Math.Pow((pos.y - minY) / (maxY - minY), 3) * (maxmaxX - minmaxX);
         }
@@ -95,7 +94,7 @@ public class CameraHandler : MonoBehaviour
         {
             pos.z = minminZ + (float)Math.Pow((pos.y - minY) / (maxY - minY), 3) * (maxminZ - minminZ);
         }
-        if (pos.z > maxmaxZ - Math.Pow((pos.y - minY) / (maxY - minY), 3) * (maxmaxZ - minmaxZ))
+        if (pos.z > maxmaxZ - Math.Pow((pos.y - minY) / (maxY - minY), 2) * (maxmaxZ - minmaxZ))
         {
             pos.z = maxmaxZ - (float)Math.Pow((pos.y - minY) / (maxY - minY), 3) * (maxmaxZ - minmaxZ);
         }
