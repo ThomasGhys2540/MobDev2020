@@ -8,6 +8,8 @@ public class CameraHandler : MonoBehaviour
     private bool doMovement = true;
     public float panspeed = 20f;
     public float scrollSpeed = 5f;
+    public float dragSpeed = 2;
+    private Vector3 dragOrigin;
 
     [Header("Coordinate Limits")]
 
@@ -32,7 +34,34 @@ public class CameraHandler : MonoBehaviour
 
     void Update()
     {
-        if(Input.anyKey)
+        if (Input.GetMouseButtonDown(0))    //If Left mouse button gets pressed, get position
+        {
+            Plane plane = new Plane(Vector3.up, 0); //Create plane
+            float distance;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);    //Create ray from camera through mouse
+            if (plane.Raycast(ray, out distance))   //If they intersect
+            {
+                dragOrigin = ray.GetPoint(distance);    //Get location of intersect
+            }
+        }
+
+        if(Input.GetMouseButton(0)) //While left mouse button is kept pressed
+        {
+            Plane plane = new Plane(Vector3.up, 0);     //Same as before but stored in local variable
+            float distance;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Vector3 currPos = new Vector3(0, 0, 0);
+            if (plane.Raycast(ray, out distance))
+            {
+                currPos = ray.GetPoint(distance);
+            }
+
+            Vector3 move = dragOrigin - currPos;    //Calculate position difference
+            move.y = 0; //Set y component to 0
+            transform.position = transform.position + move; //Set position to original + the difference
+        }
+
+        if (Input.anyKey)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
