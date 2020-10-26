@@ -9,7 +9,7 @@ public class StartupScript : MonoBehaviour
     public Transform Castle;
     public Transform Orientation;
     public Transform Playfield;
-    public int sideLength = 15;
+    int sideLength = GlobalVariables.FieldSize;
     public Transform[,] playingField;
     public int[] basePos;
     public Material baseTileMaterial;
