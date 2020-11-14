@@ -10,10 +10,10 @@ public class StartupScript : MonoBehaviour
     public Transform Orientation;
     public Transform Playfield;
     int sideLength = GlobalVariables.FieldSize;
-    public Transform[,] playingField;
+    public static Transform[,] playingField;
     public int[] basePos;
     public Material baseTileMaterial;
-    public Transform baseTile;
+    public static Transform baseTile;
     void Start()
     {
         Tile.localScale = new Vector3(4.75f, 1f, 4.75f);
@@ -30,25 +30,29 @@ public class StartupScript : MonoBehaviour
 
         Overhead.gameObject.transform.position = new Vector3(sideLength / 2 * 5, 50, sideLength / 2 * 5);
 
-        //Camera
-        basePos = new int[] { Random.Range(Mathf.CeilToInt(sideLength / 2), sideLength), Random.Range(0, Mathf.FloorToInt(sideLength / 2)) };
+        basePos = new int[] { Random.Range(Mathf.CeilToInt(sideLength / 2f), sideLength), Random.Range(0, Mathf.FloorToInt(sideLength / 2)) };
         baseTile = playingField[basePos[0], basePos[1]];
         Castle.localScale = new Vector3(5, 5, 100);
         Tile.localScale = new Vector3(0, 0, 0);
         Transform CastleObj = Instantiate(Castle, baseTile.position + new Vector3(-0.25f * baseTile.localScale.x, 1.5f, 0.25f * baseTile.localScale.z), Quaternion.Euler(90, 90, 0), baseTile);
+
+        //Camera
         Camera.position = baseTile.position + new Vector3(0,5,-5);
         Camera.transform.rotation = Quaternion.Euler(45, 0, 0);
         playingField[basePos[0], basePos[1]].GetComponent<MeshRenderer>().material = baseTileMaterial;
+
             //Configure Camera limits
                 //X
-        Camera.GetComponent<CameraHandler>().maxmaxX = sideLength * 5 - 5;
-        Camera.GetComponent<CameraHandler>().minmaxX = sideLength * 5 - 30;
-        Camera.GetComponent<CameraHandler>().maxminX = 25;
+        Camera.GetComponent<CameraHandler>().maxmaxX = 3 * sideLength + (8 * (sideLength - 5) / (20)) * (sideLength / 5f);
+        Camera.GetComponent<CameraHandler>().minmaxX = 2 * sideLength;
+        Camera.GetComponent<CameraHandler>().maxminX = 2 * sideLength;
         Camera.GetComponent<CameraHandler>().minminX = 0;
                 //Z
-        Camera.GetComponent<CameraHandler>().maxmaxZ = sideLength * 5 - 10;
-        Camera.GetComponent<CameraHandler>().minmaxZ = sideLength * 5 - 25;
-        Camera.GetComponent<CameraHandler>().maxminZ = 20;
-        Camera.GetComponent<CameraHandler>().minminZ = -5;
+        Camera.GetComponent<CameraHandler>().maxmaxZ = 3 * sideLength + (8 * (sideLength - 5)/(20)) * (sideLength / 5f);
+        Camera.GetComponent<CameraHandler>().minmaxZ = 3 * sideLength + (4 * (sideLength - 5) / (20)) * (sideLength / 5f);
+        Camera.GetComponent<CameraHandler>().maxminZ = sideLength;
+        Camera.GetComponent<CameraHandler>().minminZ = -sideLength;
+        //Y
+        Camera.GetComponent<CameraHandler>().maxY = 3 * sideLength;
     }
 }
